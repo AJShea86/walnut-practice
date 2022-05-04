@@ -32,5 +32,31 @@ app.post("/api/recipes", function (req, res) {
   });
 });
 
+app.put('/api/recipes/:_id', function(req, res){
+    const id = req.params._id
+    const recipe = req.body
+    Recipe.updateRecipe(id, recipe, {}, function(err, recipe){
+        if(err){
+            throw err;
+        }
+        res.json(recipe)
+
+    });
+})
+
+app.delete('/api/recipes/:_id', function(req, res){
+    const id = req.params._id
+    Recipe.deleteRecipe(id, function(err, recipe){
+        if(err){
+            throw err;
+        }
+        res.json(recipe)
+
+    });
+})
+
+
+
+
 app.listen(3000);
 console.log("Running on port 3000...");
