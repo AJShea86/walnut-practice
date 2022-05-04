@@ -1,14 +1,36 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+Recipe = require("./models/recipe");
 
-mongoose.connect('mongodb://localhost/recipes');
-const db = mongoose.mongoose.connection
+app.use(bodyParser.json());
 
-app.get('/', function(req, res){
-    res.send('Hello Andrew, good luck!')
+mongoose.connect("mongodb://localhost/recipes");
+const db = mongoose.mongoose.connection;
+
+app.get("/", function (req, res) {
+  res.send("Please, use /api/recipes or /api/ingredients");
+});
+
+app.get("/api/recipes", function (req, res) {
+  Recipe.getRecipes(function (err, recipes) {
+    if (err) {
+      throw err;
+    }
+    res.json(recipes);
+  });
+});
+
+app.post("/api/recipes", function (req, res) {
+  const recipe = req.body
+  Recipe.addRecipe(recipe, function (err, recipe) {
+    if (err) {
+      throw err;
+    }
+    res.json(recipe);
+  });
 });
 
 app.listen(3000);
-console.log('Running on port 3000...')
+console.log("Running on port 3000...");
