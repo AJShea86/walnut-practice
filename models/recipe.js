@@ -22,6 +22,11 @@ module.exports.getRecipes = function (callback, limit) {
   Recipe.find(callback).limit(limit);
 };
 
+module.exports.getIngredients = function (name, callback) {
+  Recipe.find(name, callback)
+};
+
+
 module.exports.addRecipe = function (recipe, callback) {
   Recipe.create(recipe, callback);
 };
